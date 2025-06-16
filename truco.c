@@ -85,7 +85,7 @@ void adicionar_nome_jogado(struct jogador *jogador)
 }
 
 /*
-Função para a
+Função para a   
 */
 void adicionar_carta()
 {
