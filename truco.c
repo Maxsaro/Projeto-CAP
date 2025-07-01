@@ -12,7 +12,7 @@ Asegura: mostrar o resultado do jogo
 static int gerador_semeado = 0;
 
 // Constante para os naipes das cartas
-const int NAIPES[] = {'C', 'E', 'O', 'P'}; // Copas, Espadas, Ouros, Paus
+const char NAIPES[] = {'C', 'E', 'O', 'P'}; // Copas, Espadas, Ouros, Paus
 
 struct carta
 {
