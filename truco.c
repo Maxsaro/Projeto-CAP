@@ -54,6 +54,7 @@ struct jogador
 {
     char nome[50];       // Nome do jogador.
     struct carta mao[3]; // Mão do jogador, contendo 3 cartas.
+    int qtd_cartas_restantes;
 };
 
 /*
@@ -148,28 +149,43 @@ void distribuir_cartas_jogador(struct jogador *jogador)
     for (int i = 0; i < 3; i++)
     {
         jogador->mao[i] = criar_carta_aleatoria(jogador->mao[i]);
+        jogador->qtd_cartas_restantes = 3;
     }
 }
 
-/*
- * @brief Adiciona jogadores a uma equipe, solicitando seus nomes e distribuindo cartas.
+/**
+ * @brief Adiciona jogadores a uma equipe, solicitando seus nomes e distribuindo cartas iniciais.
  *
- * @param time Um array de estruturas 'jogador' que compõem a equipe.
- * @param quantidade_jogadores O número de jogadores na equipe.
+ * Esta função itera sobre o número de jogadores especificado, chamando rotinas auxiliares
+ * para obter o nome de cada jogador e para distribuir um conjunto inicial de cartas.
+ *
+ * @param time Um array de estruturas 'jogador' que representa os membros da equipe.
+ * @param quantidade_jogadores O número total de jogadores nesta equipe.
+ *
+ * @note Presume que as funções 'adicionar_nome_jogador' e 'distribuir_cartas_jogador'
+ * já estão definidas e são responsáveis pelas suas respectivas operações.
+ * @see adicionar_nome_jogador
+ * @see distribuir_cartas_jogador
  */
 void adicionar_equipe(struct jogador time[], int quantidade_jogadores)
 {
     for (int i = 0; i < quantidade_jogadores; i++)
     {
-        adicionar_nome_jogador(&time[i]);    // Solicita o nome do jogador.
-        distribuir_cartas_jogador(&time[i]); // Distribui 3 cartas para o jogador.
+        adicionar_nome_jogador(&time[i]);    // Solicita e atribui o nome ao jogador.
+        distribuir_cartas_jogador(&time[i]); // Distribui 3 cartas para a mão do jogador.
     }
 }
 
-/*
- * @brief Exibe as informações de uma única carta.
+/**
+ * @brief Exibe as informações de uma única carta no formato "númeroNaipe".
  *
- * @param carta A estrutura 'carta' a ser exibida.
+ * Esta função recebe uma estrutura 'carta' e imprime seu número e o caractere
+ * correspondente ao seu naipe, utilizando um array global ou constante de naipes.
+ *
+ * @param carta A estrutura 'carta' contendo o número e o naipe a serem exibidos.
+ *
+ * @note Assume a existência de um array global 'NAIPES' (ex: char NAIPES[])
+ * onde o índice 'carta.naipe' pode ser usado para acessar o caractere correto do naipe.
  */
 void exibir_carta(struct carta carta)
 {
@@ -177,10 +193,18 @@ void exibir_carta(struct carta carta)
     printf("%d%c ", carta.numero, NAIPES[carta.naipe]);
 }
 
-/*
+/**
  * @brief Exibe todas as cartas na mão de um jogador.
  *
- * @param mao Um array de estruturas 'carta' representando a mão do jogador.
+ * Esta função itera sobre as cartas em um array que representa a mão de um jogador
+ * e chama a função 'exibir_carta' para cada uma delas, formatando a saída com um prefixo "Mão:".
+ *
+ * @param mao Um array de estruturas 'carta' representando a mão completa do jogador.
+ * Presume-se que a mão contém 3 cartas.
+ *
+ * @warning O tamanho da mão (3 cartas) está fixo nesta função. Considere passar o tamanho
+ * como um parâmetro se a quantidade de cartas na mão puder variar.
+ * @see exibir_carta
  */
 void exibir_mao(struct carta mao[])
 {
@@ -192,11 +216,16 @@ void exibir_mao(struct carta mao[])
     printf("\n");
 }
 
-/*
- * @brief Exibe as informações de todos os jogadores em uma equipe, incluindo seus nomes e mãos.
+/**
+ * @brief Exibe as informações detalhadas de todos os jogadores em uma equipe.
+ *
+ * Esta função percorre o array de jogadores de uma equipe, imprimindo o nome de cada jogador
+ * e, em seguida, suas cartas na mão, através da chamada à função 'exibir_mao'.
  *
  * @param time Um array de estruturas 'jogador' que compõem a equipe.
- * @param quantidade_jogadores O número de jogadores na equipe.
+ * @param quantidade_jogadores O número de jogadores presentes na equipe.
+ *
+ * @see exibir_mao
  */
 void exibir_time(struct jogador time[], int quantidade_jogadores)
 {
@@ -207,12 +236,36 @@ void exibir_time(struct jogador time[], int quantidade_jogadores)
     }
 }
 
+/**
+ * @brief Exibe a equipe vencedora do jogo.
+ *
+ * Esta função é chamada para anunciar o time ganhador, imprimindo um cabeçalho
+ * e, em seguida, exibindo todos os jogadores e suas informações (assumindo que
+ * 'exibir_time' já mostra nome e mão, o que pode ser uma redundância aqui se
+ * o foco é apenas anunciar o vencedor).
+ *
+ * @param time Um array de estruturas 'jogador' representando a equipe vencedora.
+ * @param quantidade_jogadores O número de jogadores na equipe vencedora.
+ *
+ * @note Esta função pode ser simplificada se 'exibir_time' já fornece a informação
+ * suficiente. Pode ser mais direto imprimir "Time X Venceu!" e talvez um resumo.
+ * @see exibir_time
+ */
 void exibir_ganhador(struct jogador time[], int quantidade_jogadores)
 {
     printf("\n--- Ganhador do Jogo ---\n");
-    exibir_time(time, quantidade_jogadores);
+    exibir_time(time, quantidade_jogadores); // Exibe detalhes da equipe ganhadora.
 }
 
+/**
+ * @brief Exibe a pontuação final de ambos os times ao término do jogo.
+ *
+ * Esta função imprime um cabeçalho e então mostra as pontuações acumuladas
+ * do Time 1 e do Time 2 de forma clara.
+ *
+ * @param pontuacao_time_1 A pontuação total alcançada pelo Time 1.
+ * @param pontuacao_time_2 A pontuação total alcançada pelo Time 2.
+ */
 void exibir_pontuacao_final(int pontuacao_time_1, int pontuacao_time_2)
 {
     printf("\n--- Pontuação Final ---\n");
@@ -220,17 +273,121 @@ void exibir_pontuacao_final(int pontuacao_time_1, int pontuacao_time_2)
     printf("Time 2: %d pontos\n", pontuacao_time_2);
 }
 
+/**
+ * @brief Gerencia o processo de finalização de uma partida de truco.
+ *
+ * Esta função determina qual equipe venceu o jogo com base nas pontuações finais,
+ * chama a função para exibir o time ganhador e, por fim, mostra a pontuação final
+ * de ambos os times.
+ *
+ * @param time_1 Array de estruturas 'jogador' representando o Time 1.
+ * @param time_2 Array de estruturas 'jogador' representando o Time 2.
+ * @param pontuacao_time_1 Pontuação total do Time 1.
+ * @param pontuacao_time_2 Pontuação total do Time 2.
+ * @param qtd_jagadores_cada_time O número de jogadores em cada time (assumindo que são iguais).
+ *
+ * @see exibir_ganhador
+ * @see exibir_pontuacao_final
+ */
 void finalizar_jogo(struct jogador time_1[], struct jogador time_2[], int pontuacao_time_1, int pontuacao_time_2, int qtd_jagadores_cada_time)
 {
     if (pontuacao_time_1 > pontuacao_time_2)
-        exibir_ganhador(time_1, qtd_jagadores_cada_time);
+        exibir_ganhador(time_1, qtd_jagadores_cada_time); // Time 1 venceu.
     else
-        exibir_ganhador(time_2, qtd_jagadores_cada_time);
+        exibir_ganhador(time_2, qtd_jagadores_cada_time); // Time 2 venceu (ou houve empate, tratada como vitória do Time 2).
 
-    exibir_pontuacao_final(pontuacao_time_1, pontuacao_time_2);
+    exibir_pontuacao_final(pontuacao_time_1, pontuacao_time_2); // Exibe as pontuações finais.
 }
 
-void rodada_truco(struct jogador time_1[], struct jogador time_2[], int qtd_jogadores_cada_time, int qtd_pontos_time1, int qtd_pontos_time2);
+/**
+ * @brief Função placeholder para a lógica de uma rodada de truco.
+ *
+ * Esta função deve conter toda a lógica para o desenvolvimento de uma rodada completa de truco,
+ * incluindo jogadas de cartas, pedidos de truco, envido, flor, etc., e o cálculo dos pontos da rodada.
+ *
+ * @param time_1 Array de estruturas 'jogador' representando o Time 1.
+ * @param time_2 Array de estruturas 'jogador' representando o Time 2.
+ * @param qtd_jogadores_cada_time O número de jogadores em cada time.
+ * @param qtd_pontos_time1 Pontuação atual do Time 1 (parâmetro de entrada/saída ou usar ponteiro se for modificar).
+ * @param qtd_pontos_time2 Pontuação atual do Time 2 (parâmetro de entrada/saída ou usar ponteiro se for modificar).
+ *
+ * @note Atualmente, esta função está vazia e serve como um esqueleto para a implementação futura.
+ */
+void rodada_truco(struct jogador time_1[], struct jogador time_2[], int qtd_jogadores_cada_time, int *qtd_pontos_time1, int *qtd_pontos_time2)
+{
+    // Lógica da rodada de truco (jogadas, contagem de pontos, etc.)
+}
+
+/**
+ * @brief Função placeholder para a lógica de um jogador pedir uma carta.
+ *
+ * Esta função seria responsável por gerenciar a interação com o jogador
+ * para que ele escolha qual carta deseja jogar da sua mão. Pode incluir
+ * validação da entrada do usuário.
+ *
+ * @note Atualmente, esta função está vazia e serve como um esqueleto para a implementação futura.
+ * Provavelmente precisará de parâmetros para interagir com o jogador atual e sua mão.
+ */
+void pedir_carta_jogar(struct jogador jogador)
+{
+    printf("Qual carta deseja jogar?: ");
+    for (int i = 0; i < jogador.qtd_cartas_restantes; i++)
+        printf("Para carta %d%c digite - %d\n", jogador.mao->numero, jogador.mao->naipe, i + 1);
+}
+
+/**
+ * @brief Solicita ao jogador qual carta ele deseja jogar.
+ *
+ * Esta função exibe uma mensagem no console para o jogador, pedindo que ele
+ * indique qual carta de sua mão deseja utilizar na jogada atual.
+ *
+ * @param jogador A estrutura 'jogador' para a qual a pergunta está sendo feita.
+ * Normalmente, esta função esperaria alguma entrada do usuário
+ * que não está sendo capturada aqui.
+ *
+ * @note Esta função apenas exibe a mensagem. A lógica para ler a escolha do
+ * jogador e validar a carta deve ser implementada aqui ou em uma função auxiliar.
+ */
+struct carta jogar_carta(struct jogador jogador)
+{
+    // Lógica para ler a entrada do jogador e processar a jogada da carta.
+    int posicao_carta;
+    do
+    {
+        scanf("%d", &posicao_carta);
+        switch (posicao_carta)
+        {
+        case 1:
+            return jogador.mao[1];
+            break;
+        case 2:
+            return jogador.mao[2];
+            break;
+        case 3:
+            return jogador.mao[3];
+            break;
+        default:
+            printf("Valor inválido, digite novamente se atentatendo a ele");
+        }
+    } while (posicao_carta < 1 && posicao_carta > jogador.qtd_cartas_restantes);
+}
+
+/**
+ * @brief Função placeholder para a lógica de pedir 'truco'.
+ *
+ * Esta função deve encapsular as regras e interações para um jogador
+ * realizar um pedido de 'truco', incluindo a resposta do time adversário
+ * (aceitar, aumentar ou fugir) e as consequências nos pontos da rodada.
+ *
+ * @note Atualmente, esta função está vazia e serve como um esqueleto para a implementação futura.
+ * Provavelmente precisará de parâmetros para o estado atual do jogo,
+ * os jogadores envolvidos e a pontuação da rodada.
+ */
+void pedir_truco(int *qtd_pontos_valendo)
+{
+    printf("Quanto deseja pedir: 3, 6, 9?");
+    scanf("%d", &qtd_pontos_valendo);
+}
 
 /*
  * @brief Função principal do programa.
