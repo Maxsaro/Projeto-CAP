@@ -126,18 +126,57 @@ void rodada_truco(struct jogador time_1[], struct jogador time_2[], int qtd_joga
  */
 void pedir_carta_jogar(struct jogador jogador);
 
+void retirar_carta_jogada(struct jogador *jogador, int posicao_carta_jogada)
+{
+    if (posicao_carta_jogada >= 0 && posicao_carta_jogada < jogador->qtd_cartas_restantes)
+    {
+        // Passo 1: Trocar o valor da posição a ser removida
+        // pelo valor do último elemento válido.
+        // Isso simula a "remoção" sem deixar uma lacuna e sem mudar a ordem dos demais.
+        jogador->mao[posicao_carta_jogada] = jogador->mao[jogador->qtd_cartas_restantes - 1];
+
+        // Passo 2: Reduzir o tamanho lógico do array.
+        // O último elemento agora está na posição removida e não precisamos mais do duplicado.
+        jogador->qtd_cartas_restantes--;
+    }
+}
+
 /*
  * @brief Lida com a jogada de uma carta por um jogador, incluindo a validação da entrada.
- * @param jogador A estrutura 'jogador' do jogador.
+ * @param jogador Um ponteiro para a estrutura 'jogador'.
  * @return A estrutura 'carta' jogada pelo jogador.
  */
-struct carta jogar_carta(struct jogador jogador);
+struct carta jogar_carta(struct jogador *jogador);
 
 /*
  * @brief Placeholder para a lógica do pedido de 'truco'.
  * @param qtd_pontos_valendo Ponteiro para o valor atual dos pontos da rodada.
  */
 void pedir_truco(int *qtd_pontos_valendo);
+
+void distibuir_mao_novamente(struct jogador time_1[], struct jogador time_2[], int numero_jogadores_cada_time)
+{
+    for (int i = 0; i < numero_jogadores_cada_time; i++)
+    {
+        distribuir_cartas_jogador(&time_1[i]);
+        distribuir_cartas_jogador(&time_2[i]);
+    }
+}
+
+struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada)
+{
+    if (carta_jogada.numero == carta_maior.numero)
+        return carta_jogada.naipe > carta_maior.naipe ? carta_jogada : carta_maior;
+    if (carta_maior.numero == 3)
+        return carta_maior;
+    if (carta_maior.numero >= 1 && carta_maior.numero <= 2 && carta_jogada.numero >= 1 && carta_jogada.numero <= 2)
+        return carta_jogada.numero > carta_maior.numero ? carta_jogada : carta_maior;
+    if (carta_maior.numero > 3){
+        
+    }
+
+    return carta_maior;
+}
 
 /*
  * @brief Função principal do programa.
@@ -302,23 +341,27 @@ void pedir_carta_jogar(struct jogador jogador)
         printf("Para carta %d%c digite - %d\n", jogador.mao[i].numero, NAIPES[jogador.mao[i].naipe], i + 1);
 }
 
-struct carta jogar_carta(struct jogador jogador)
+struct carta jogar_carta(struct jogador *jogador)
 {
     int posicao_carta;
     do
     {
-        pedir_carta_jogar(jogador); // Exibe as opções
+        pedir_carta_jogar(*jogador); // Exibe as opções
         scanf("%d", &posicao_carta);
-        if (posicao_carta < 1 || posicao_carta > jogador.qtd_cartas_restantes)
+        if (posicao_carta < 1 || posicao_carta > jogador->qtd_cartas_restantes)
         {
             printf("Valor inválido, digite novamente se atentando a ele.\n");
             // Limpa o buffer de entrada
             while (getchar() != '\n')
                 ;
         }
-    } while (posicao_carta < 1 || posicao_carta > jogador.qtd_cartas_restantes);
+    } while (posicao_carta < 1 || posicao_carta > jogador->qtd_cartas_restantes);
 
-    return jogador.mao[posicao_carta - 1]; // Ajusta para índice de array baseado em 0
+    struct carta carta_jogada = jogador->mao[posicao_carta - 1];
+
+    retirar_carta_jogada(jogador, posicao_carta);
+
+    return carta_jogada; // Ajusta para índice de array baseado em 0
 }
 
 void pedir_truco(int *qtd_pontos_valendo)
