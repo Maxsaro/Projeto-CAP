@@ -444,7 +444,7 @@ struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada
 
 void quem_ganhou_rodada(struct jogador time[], int numero_jogadores_cada_time, int posicao_ganhador)
 {
-    struct jogaor posicao_temporaria = time[posicao_ganhador];
+    struct jogador posicao_temporaria = time[posicao_ganhador];
     time[posicao_ganhador] = time[0];
     time[0] = posicao_temporaria; 
 }
