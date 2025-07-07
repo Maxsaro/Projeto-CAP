@@ -185,7 +185,6 @@ int main(void)
     exibir_time(time_2_jogadores, qtd_jogadores_cada_time);
 
     // Loop principal do jogo (atualmente comentado, pois a lógica central do jogo não está implementada)
-    /*
     while (pontuacao_time_1 < 12 && pontuacao_time_2 < 12) {
         rodada_truco(time_1_jogadores, time_2_jogadores, qtd_jogadores_cada_time, &pontuacao_time_1, &pontuacao_time_2);
         printf("O jogo está %d a %d"); //Arrumar com a função
