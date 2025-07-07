@@ -145,6 +145,8 @@ void distibuir_mao_novamente(struct jogador time_1[], struct jogador time_2[], i
 
 struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada);
 
+void quem_ganhou_rodada(struct jogador time[], int numero_jogadores_cada_time, int posicao_ganhador);
+
 /*
  * @brief Função principal do programa.
  */
@@ -402,3 +404,11 @@ struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada
 
     return carta_maior;
 }
+
+void quem_ganhou_rodada(struct jogador time[], int numero_jogadores_cada_time, int posicao_ganhador)
+{
+    struct jogaor posicao_temporaria = time[posicao_ganhador];
+    time[posicao_ganhador] = time[0];
+    time[0] = posicao_temporaria; 
+}
+
