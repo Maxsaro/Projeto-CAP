@@ -145,8 +145,6 @@ void distibuir_mao_novamente(struct jogador time_1[], struct jogador time_2[], i
 
 struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada);
 
-void 
-
 /*
  * @brief Função principal do programa.
  */
