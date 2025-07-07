@@ -185,11 +185,48 @@ int main(void)
     exibir_time(time_2_jogadores, qtd_jogadores_cada_time);
 
     // Loop principal do jogo (atualmente comentado, pois a lógica central do jogo não está implementada)
-    /*
     while (pontuacao_time_1 < 12 && pontuacao_time_2 < 12) {
         rodada_truco(time_1_jogadores, time_2_jogadores, qtd_jogadores_cada_time, &pontuacao_time_1, &pontuacao_time_2);
-    }
-    */
+        printf("O jogo está %d a %d"); //Arrumar com a função
+        
+        
+        int vitorias_time1 = 0;
+        int vitorias_time2 = 0;
+        int rodadas_jogadas = 0;
+        int pontos_valendo = 1;
+        
+        while (vitorias_time1 < 2 && vitorias_time2 < 2 &&  rodadas_jogadas < 3) {
+            printf("-------------- Inicio da rodada interna %d-------------", rodadas_jogadas+1);
+            
+            int posicao_do_jogador = 0;
+            for(int i = 0; i < quantidade_jogadores; i++) {
+                printf("Vez do jogador: \n"); //Arrumar com a função
+                printf("O que você deseja fazer:\n 1:Exibir suas cartas\n 2:Jogar alguma carta\n 3:Pedir truco\n")
+                int opçao;
+                scanf("%d", opçao);
+                switch (opçao) {
+                    case 1: {
+                        exibir_mao(jogador_atual->mao, jogador_atual->qtd_cartas_restantes);
+                        break;
+                    }    
+                    case 2: {
+                        struct carta carta_jogada = jogar_carta(jogador_atual);
+                        printf("%s jogou: ", jogador_atual->nome);
+                        exibir_carta(carta_jogada);
+                        printf("\n");
+                        break;
+                    }
+                    case 3:
+                        pedir_truco(&pontos_valendo);
+                        printf("Agora a rodada vale %d pontos!\n", pontos_valendo);
+                        break;
+                    
+                }
+            }
+        posicao_do_jogador++;
+        //Falta implementar o contador das vitorais do time 1 e 2 e somar no int para acabar o while
+        }
+}
 
     finalizar_jogo(time_1_jogadores, time_2_jogadores, pontuacao_time_1, pontuacao_time_2, qtd_jogadores_cada_time);
 
@@ -418,7 +455,7 @@ struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada
 
 void quem_ganhou_rodada(struct jogador time[], int numero_jogadores_cada_time, int posicao_ganhador)
 {
-    struct jogaor posicao_temporaria = time[posicao_ganhador];
+    struct jogador posicao_temporaria = time[posicao_ganhador];
     time[posicao_ganhador] = time[0];
     time[0] = posicao_temporaria; 
 }
