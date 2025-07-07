@@ -172,7 +172,7 @@ struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada
     if (carta_maior.numero >= 1 && carta_maior.numero <= 2 && carta_jogada.numero >= 1 && carta_jogada.numero <= 2)
         return carta_jogada.numero > carta_maior.numero ? carta_jogada : carta_maior;
     if (carta_maior.numero > 3){
-        
+        return carta_jogada.numero > carta_maior.numero ? carta_jogada : carta_maior;
     }
 
     return carta_maior;
