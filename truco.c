@@ -298,7 +298,6 @@ void finalizar_jogo(struct jogador time_1[], struct jogador time_2[], int pontua
 
 void rodada_truco(struct jogador time_1[], struct jogador time_2[], int qtd_jogadores_cada_time, int *qtd_pontos_time1, int *qtd_pontos_time2)
 {
-    
 }
 
 void pedir_carta_jogar(struct jogador jogador)
@@ -363,40 +362,52 @@ void distibuir_mao_novamente(struct jogador time_1[], struct jogador time_2[], i
 
 struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada)
 {
-    if (carta_jogada.numero == 4 && carta_jogada.naipe == 'P'){
+    if (carta_jogada.numero == 4 && carta_jogada.naipe == 'P')
+    {
         return carta_jogada;
     }
-    if (carta_maior.numero == 4 && carta_maior.naipe == 'P'){
+    if (carta_maior.numero == 4 && carta_maior.naipe == 'P')
+    {
         return carta_maior;
     }
-    if (carta_jogada.numero == 7 && carta_jogada.naipe == 'C'){
+    if (carta_jogada.numero == 7 && carta_jogada.naipe == 'C')
+    {
         return carta_jogada;
     }
-    if (carta_maior.numero == 7 && carta_maior.naipe == 'C'){
+    if (carta_maior.numero == 7 && carta_maior.naipe == 'C')
+    {
         return carta_maior;
     }
-    if (carta_jogada.numero == 1 && carta_jogada.naipe == 'E'){
+    if (carta_jogada.numero == 1 && carta_jogada.naipe == 'E')
+    {
         return carta_jogada;
     }
-    if (carta_maior.numero == 1 && carta_maior.naipe == 'E'){
+    if (carta_maior.numero == 1 && carta_maior.naipe == 'E')
+    {
         return carta_maior;
     }
-    if (carta_jogada.numero == 7 && carta_jogada.naipe == 'O'){
+    if (carta_jogada.numero == 7 && carta_jogada.naipe == 'O')
+    {
         return carta_jogada;
     }
-    if (carta_maior.numero == 7 && carta_maior.naipe == 'O'){
+    if (carta_maior.numero == 7 && carta_maior.naipe == 'O')
+    {
         return carta_maior;
     }
-    if (carta_jogada.numero == carta_maior.numero){
+    if (carta_jogada.numero == carta_maior.numero)
+    {
         return carta_jogada.naipe > carta_maior.naipe ? carta_jogada : carta_maior;
     }
-    if (carta_maior.numero == 3){
+    if (carta_maior.numero == 3)
+    {
         return carta_maior;
-    }   
-    if (carta_maior.numero >= 1 && carta_maior.numero <= 2 && carta_jogada.numero >= 1 && carta_jogada.numero <= 2){
+    }
+    if (carta_maior.numero >= 1 && carta_maior.numero <= 2 && carta_jogada.numero >= 1 && carta_jogada.numero <= 2)
+    {
         return carta_jogada.numero > carta_maior.numero ? carta_jogada : carta_maior;
     }
-    if (carta_maior.numero > 3){
+    if (carta_maior.numero > 3)
+    {
         return carta_jogada.numero > carta_maior.numero ? carta_jogada : carta_maior;
     }
 
