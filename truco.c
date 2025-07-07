@@ -364,27 +364,27 @@ void distibuir_mao_novamente(struct jogador time_1[], struct jogador time_2[], i
 struct carta comparar_cartas(struct carta carta_maior, struct carta carta_jogada)
 {
     if (carta_jogada.numero == 4 && carta_jogada.naipe == 'P'){
-        return carta_joagada;
+        return carta_jogada;
     }
-    if (carta_maior.numero == 4 && carta_maior,naipe == 'P'){
+    if (carta_maior.numero == 4 && carta_maior.naipe == 'P'){
         return carta_maior;
     }
     if (carta_jogada.numero == 7 && carta_jogada.naipe == 'C'){
-        return carta_joagada;
+        return carta_jogada;
     }
-    if (carta_maior.numero == 7 && carta_maior,naipe == 'C'){
+    if (carta_maior.numero == 7 && carta_maior.naipe == 'C'){
         return carta_maior;
     }
     if (carta_jogada.numero == 1 && carta_jogada.naipe == 'E'){
-        return carta_joagada;
+        return carta_jogada;
     }
-    if (carta_maior.numero == 1 && carta_maior,naipe == 'E'){
+    if (carta_maior.numero == 1 && carta_maior.naipe == 'E'){
         return carta_maior;
     }
     if (carta_jogada.numero == 7 && carta_jogada.naipe == 'O'){
-        return carta_joagada;
+        return carta_jogada;
     }
-    if (carta_maior.numero == 7 && carta_maior,naipe == 'O'){
+    if (carta_maior.numero == 7 && carta_maior.naipe == 'O'){
         return carta_maior;
     }
     if (carta_jogada.numero == carta_maior.numero){
