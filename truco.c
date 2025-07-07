@@ -5,7 +5,7 @@
 #include <time.h>
 
 static int gerador_semeado = 0;
-const char NAIPES[] = {'C', 'E', 'O', 'P'};
+const char NAIPES[] = {'O', 'E', 'C', 'P'};
 
 struct carta
 {
@@ -241,12 +241,12 @@ int gerar_numero_aleatorio(int max)
 
 void sorteio_numero_carta(struct carta *carta)
 {
-    carta->numero = gerar_numero_aleatorio(9);
+    carta->numero = gerar_numero_aleatorio(9) + 1;
 }
 
 void sorteio_naipe(struct carta *carta)
 {
-    carta->naipe = gerar_numero_aleatorio(3);
+    carta->naipe = NAIPES[gerar_numero_aleatorio(3)];
 }
 
 struct carta criar_carta_aleatoria(void)
@@ -331,7 +331,7 @@ void finalizar_jogo(struct jogador time_1[], struct jogador time_2[], int pontua
 
 void rodada_truco(struct jogador time_1[], struct jogador time_2[], int qtd_jogadores_cada_time, int *qtd_pontos_time1, int *qtd_pontos_time2)
 {
-    // Lógica da rodada do jogo (jogada de cartas, pontuação, etc.)
+    
 }
 
 void pedir_carta_jogar(struct jogador jogador)
